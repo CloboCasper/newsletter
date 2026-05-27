@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIWI | Clobotics</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="content">
+      <!-- REDIGER HER: Ændr KIWI-side titel og beskrivelse -->
+      <header>
+        <div class="logo-mark">C</div>
+        <div>
+          <p id="page_tag" style="margin:0; color:#1d2f4d; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:0.95rem;">KIWI</p>
+          <h1 id="page_title">Status og leverancer for KIWI</h1>
+        </div>
+      </header>
+
+      <p id="lead" class="lead">Her er den seneste interne opdatering på KIWI: integration, teknisk status og vigtige milepæle for projektteamet.</p>
+
+      <section>
+        <div class="card-grid">
+          <article class="card">
+            <h2 id="c1_title">Planlagt release</h2>
+            <p id="c1_text">Vi arbejder mod næste release, herunder tests af dataflow, deployment-plan og opfølgende drift.</p>
+          </article>
+          <article class="card">
+            <h2 id="c2_title">Systemintegration</h2>
+            <p id="c2_text">Integration med eksisterende platforme er i gang. Fokus på API-adgang, sikkerhed og validering.</p>
+          </article>
+          <article class="card">
+            <h2 id="c3_title">Support og drift</h2>
+            <p id="c3_text">Husk at dokumentere supportprocesser, opfølgningspunkter og krav til driftsmonitorering.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <a class="button" href="index.html">Tilbage til forside</a>
+      </section>
+
+      <script>
+        fetch('content_page1.json')
+          .then(r=>r.json())
+          .then(d=>{
+            document.getElementById('page_tag').innerText = d.page_tag;
+            document.getElementById('page_title').innerText = d.page_title;
+            document.getElementById('lead').innerText = d.lead;
+            document.getElementById('c1_title').innerText = d.cards[0].title;
+            document.getElementById('c1_text').innerText = d.cards[0].text;
+            document.getElementById('c2_title').innerText = d.cards[1].title;
+            document.getElementById('c2_text').innerText = d.cards[1].text;
+            document.getElementById('c3_title').innerText = d.cards[2].title;
+            document.getElementById('c3_text').innerText = d.cards[2].text;
+          }).catch(()=>{});
+      </script>
+
+      <section>
+        <a class="button" href="index.html">Tilbage til forside</a>
+      </section>
+
+      <footer>
+        <p>Clobotics Wind Services — Mere viden, bedre beslutninger.</p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

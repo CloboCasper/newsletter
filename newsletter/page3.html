@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload tool | Clobotics</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="content">
+      <!-- REDIGER HER: Ændr Upload tool-side titel og beskrivelse -->
+      <header>
+        <div class="logo-mark">C</div>
+        <div>
+          <p id="page_tag" style="margin:0; color:#1d2f4d; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; font-size:0.95rem;">Upload tool</p>
+          <h1 id="page_title">Upload tool og dataflow</h1>
+        </div>
+      </header>
+
+      <p id="lead" class="lead">Teknisk information om Upload tool, hvordan data uploades, valideres og håndteres i projektet.</p>
+
+      <section>
+        <div class="card-grid">
+          <article class="card">
+            <h2 id="c1_title">Tekniske krav</h2>
+            <p id="c1_text">Gennemgang af krav til format, sikkerhed og grænseflader, så uploadprocessen fungerer som forventet.</p>
+          </article>
+          <article class="card">
+            <h2 id="c2_title">Test og validering</h2>
+            <p id="c2_text">Beskrivelse af testcases, valideringspunkter og hvad der skal være på plads før driftsstart.</p>
+          </article>
+          <article class="card">
+            <h2 id="c3_title">Deploy og support</h2>
+            <p id="c3_text">Plan for deployment, opfølgning og support ved opstart, inklusive ansvar og eskaleringsvej.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <a class="button" href="index.html">Tilbage til forside</a>
+      </section>
+
+      <script>
+        fetch('content_page3.json')
+          .then(r=>r.json())
+          .then(d=>{
+            document.getElementById('page_tag').innerText = d.page_tag;
+            document.getElementById('page_title').innerText = d.page_title;
+            document.getElementById('lead').innerText = d.lead;
+            document.getElementById('c1_title').innerText = d.cards[0].title;
+            document.getElementById('c1_text').innerText = d.cards[0].text;
+            document.getElementById('c2_title').innerText = d.cards[1].title;
+            document.getElementById('c2_text').innerText = d.cards[1].text;
+            document.getElementById('c3_title').innerText = d.cards[2].title;
+            document.getElementById('c3_text').innerText = d.cards[2].text;
+          }).catch(()=>{});
+      </script>
+
+      <section>
+        <a class="button" href="index.html">Tilbage til forside</a>
+      </section>
+
+      <footer>
+        <p>Clobotics Wind Services — Kontakt for at komme videre med digital vindservice.</p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>
