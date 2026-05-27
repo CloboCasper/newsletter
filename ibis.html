@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IBIS | Clobotics</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="content">
+      <header>
+        <div class="logo-mark">C</div>
+        <div>
+          <p style="margin:0; color:#1d2f4d; font-weight:700; text-transform:uppercase; font-size:0.95rem;">IBIS</p>
+          <h1 id="title">IBIS status</h1>
+        </div>
+      </header>
+
+      <section>
+        <h2>Current software version</h2>
+        <p id="software_version">4.8.3</p>
+
+        <h2>IBIS in stock</h2>
+        <p id="in_stock">0 payloads and 3 drones (all without gimbals).
+          Gimbals allmost out of stock. There is only 2 sets left, but they are not assembled.
+        </p>
+
+        <h2>Manuals</h2>
+        <ul id="manuals">
+          <li>Use clobo tech support</li>
+        </ul>
+      </section>
+
+      <section>
+        <a class="button" href="index.html">Back to home</a>
+      </section>
+
+      <script>
+        fetch('content_ibis.json').then(r=>r.json()).then(d=>{
+          document.getElementById('software_version').innerText = d.current_software_version || '';
+          document.getElementById('in_stock').innerText = d.ibis_in_stock || '';
+          const ul = document.getElementById('manuals'); ul.innerHTML='';
+          (d.manuals||[]).forEach(m=>{ const li=document.createElement('li'); li.innerText=m; ul.appendChild(li); });
+        }).catch(()=>{});
+      </script>
+
+      <footer>
+        <p>Clobotics — IBIS</p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>
