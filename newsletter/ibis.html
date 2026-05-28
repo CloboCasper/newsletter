@@ -42,16 +42,30 @@
       </section>
 
       <script>
-        fetch('content_ibis.json').then(response => {
-          const lastModified = response.headers.get('last-modified');
-          return response.json().then(d => ({ d, lastModified }));
-        }).then(result => {
-          document.getElementById('software_version').innerText = result.d.current_software_version || '';
-          document.getElementById('in_stock').innerText = result.d.ibis_in_stock || '';
-          const ul = document.getElementById('manuals'); ul.innerHTML='';
-          (result.d.manuals||[]).forEach(m=>{ const li=document.createElement('li'); li.innerText = m; ul.appendChild(li); });
+        async function loadJson(file) {
+          const paths = [file, '/newsletter/' + file];
+          for (const path of paths) {
+            try {
+              const response = await fetch(path);
+              if (response.ok) {
+                const lastModified = response.headers.get('last-modified');
+                const data = await response.json();
+                return { data, lastModified };
+              }
+            } catch (e) {
+              // try next path
+            }
+          }
+          throw new Error('Could not load JSON');
+        }
+
+        loadJson('content_ibis.json').then(result => {
+          document.getElementById('software_version').innerText = result.data.current_software_version || '';
+          document.getElementById('in_stock').innerText = result.data.ibis_in_stock || '';
+          const ul = document.getElementById('manuals'); ul.innerHTML = '';
+          (result.data.manuals || []).forEach(m => { const li = document.createElement('li'); li.innerText = m; ul.appendChild(li); });
           const updatedEl = document.getElementById('last_updated');
-          const dateText = result.lastModified ? new Date(result.lastModified).toLocaleString('en-GB') : result.d.last_updated || '';
+          const dateText = result.lastModified ? new Date(result.lastModified).toLocaleString('en-GB') : result.data.last_updated || '';
           updatedEl.innerText = dateText ? `Last updated: ${dateText}` : '';
         }).catch(() => {
           document.getElementById('last_updated').innerText = '';
