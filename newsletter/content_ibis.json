@@ -1,8 +1,8 @@
 {
-  "current_software_version": "version 4.8.4.",
-  "ibis_in_stock": "0 units, 0 payloads, 3 drones without gimbals. ",
+  "current_software_version": "version 4.8.3",
+  "ibis_in_stock": "0 units, 0 payloads, 3 drones without gimbals.",
   "manuals": [
-    "use clobotic tech support"
-    
-  ]
+    "See Clobo Tech Support"
+  ],
+  "last_updated": "2026-06-04"
 }

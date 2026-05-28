@@ -19,21 +19,39 @@
 
       <section>
         <h2>Current software version</h2>
-        <p>version 1.4.3-stable-root-dist</p>
+        <p id="software_version">Loading...</p>
 
         <h2>KIWI ready for inspections job</h2>
-        <p>4 stk</p>
+        <p id="ready_for_inspections">Loading...</p>
+
+        <p class="small-note" id="last_updated">Last updated: loading...</p>
 
         <h2>Manuals</h2>
-        <ul>
-          <li><a href="manuals/KIWI Inspection Guide.pdf" target="_blank">KIWI Inspection Guide.pdf</a></li>
-          <li><a href="manuals/KIWI Maintenance Manual.pdf" target="_blank">KIWI Maintenance Manual.pdf</a></li>
+        <ul id="manuals">
+          <li>Loading...</li>
         </ul>
       </section>
 
       <section>
         <a class="button" href="index.html">Back to home</a>
       </section>
+
+      <script>
+        fetch('content_kiwi.json').then(response => {
+          const lastModified = response.headers.get('last-modified');
+          return response.json().then(d => ({ d, lastModified }));
+        }).then(result => {
+          document.getElementById('software_version').innerText = result.d.current_software_version || '';
+          document.getElementById('ready_for_inspections').innerText = result.d.kiwi_ready_for_inspections_job || '';
+          const ul = document.getElementById('manuals'); ul.innerHTML='';
+          (result.d.manuals||[]).forEach(m=>{ const li = document.createElement('li'); li.innerText = m; ul.appendChild(li); });
+          const updatedEl = document.getElementById('last_updated');
+          const dateText = result.lastModified ? new Date(result.lastModified).toLocaleString('en-GB') : result.d.last_updated || '';
+          updatedEl.innerText = dateText ? `Last updated: ${dateText}` : '';
+        }).catch(() => {
+          document.getElementById('last_updated').innerText = '';
+        });
+      </script>
 
       <footer>
         <p>Clobotics — KIWI</p>
