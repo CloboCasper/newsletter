@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IBIS | Clobotics</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <div class="content">
+      <header>
+        <div class="logo-mark">C</div>
+        <div>
+          <p style="margin:0; color:#1d2f4d; font-weight:700; text-transform:uppercase; font-size:0.95rem;">IBIS</p>
+          <h1 id="title">IBIS status</h1>
+        </div>
+      </header>
+
+      <section>
+        <h2>Current software version</h2>
+        <p id="software_version">Loading...</p>
+
+        <h2>IBIS in stock</h2>
+        <p id="in_stock">Loading...</p>
+
+        <p class="small-note" id="last_updated">Last updated: loading...</p>
+
+        <h2>Manuals</h2>
+        <ul id="manuals">
+          <li>Loading...</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Important knowledge</h2>
+        <p>Before you send a payload out of the house, always check which type of legs are included and compare them with the drone's leg mount.</p>
+      </section>
+
+      <section>
+        <a class="button" href="index.html">Back to home</a>
+      </section>
+
+      <script>
+        async function loadJson(file) {
+          const paths = [file, '/newsletter/' + file];
+          for (const path of paths) {
+            try {
+              const response = await fetch(path);
+              if (response.ok) {
+                const lastModified = response.headers.get('last-modified');
+                const data = await response.json();
+                return { data, lastModified };
+              }
+            } catch (e) {
+              // try next path
+            }
+          }
+          throw new Error('Could not load JSON');
+        }
+
+        loadJson('content_ibis.json').then(result => {
+          document.getElementById('software_version').innerText = result.data.current_software_version || '';
+          document.getElementById('in_stock').innerText = result.data.ibis_in_stock || '';
+          const ul = document.getElementById('manuals'); ul.innerHTML = '';
+          (result.data.manuals || []).forEach(m => { const li = document.createElement('li'); li.innerText = m; ul.appendChild(li); });
+          const updatedEl = document.getElementById('last_updated');
+          const dateText = result.lastModified ? new Date(result.lastModified).toLocaleString('en-GB') : result.data.last_updated || '';
+          updatedEl.innerText = dateText ? `Last updated: ${dateText}` : '';
+        }).catch(() => {
+          document.getElementById('last_updated').innerText = '';
+        });
+      </script>
+
+      <footer>
+        <p>Clobotics — IBIS</p>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>
