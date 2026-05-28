@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nyhedsbrev Editor</title>
+  <style>
+    body{font-family:Segoe UI,Arial;margin:18px;color:#12233a}
+    label{display:block;margin-top:12px;font-weight:600}
+    textarea{width:100%;height:320px;font-family:monospace;margin-top:6px}
+    select,input,button{margin-top:8px}
+    .controls{display:flex;gap:8px;align-items:center}
+    .hint{color:#556;color:#6b7a93;margin-top:10px}
+  </style>
+</head>
+<body>
+  <h1>Clobotics - Enkel editor</h1>
+  <p class="hint">Vælg en side, rediger JSON-indholdet og klik <strong>Download</strong> for at gemme ændringer. Erstat derefter den tilsvarende `content_*.json` i `newsletter/` eller i `newsletter/public/` for at gøre ændringer synlige for andre.</p>
+
+  <label for="page">Vælg side</label>
+  <div class="controls">
+    <select id="page">
+      <option value="content_index.json">Forside (index)</option>
+      <option value="content_page1.json">KIWI (page1)</option>
+      <option value="content_page2.json">IBIS (page2)</option>
+      <option value="content_page3.json">Upload tool (page3)</option>
+    </select>
+    <button id="load">Indlæs</button>
+    <button id="download">Download</button>
+  </div>
+
+  <label for="editor">JSON indhold</label>
+  <textarea id="editor">Vælg en side og klik Indlæs</textarea>
+
+  <script>
+    const pageSelect = document.getElementById('page');
+    const loadBtn = document.getElementById('load');
+    const downloadBtn = document.getElementById('download');
+    const editor = document.getElementById('editor');
+
+    async function load() {
+      const file = pageSelect.value;
+      try {
+        const res = await fetch(file + '?_=' + Date.now());
+        if (!res.ok) throw new Error('Kunne ikke hente ' + file + '. Åbn filen lokalt i samme mappe på grund af browserens CORS/filadgangsregler.');
+        const data = await res.json();
+        editor.value = JSON.stringify(data, null, 2);
+      } catch (e) {
+        editor.value = '// Fejl: ' + e.message + '\n\n// Hvis du åbner editoren med fil:/// i browseren kan nogle browsere forhindre fetch. I så fald rediger filen direkte i en teksteditor.';
+      }
+    }
+
+    loadBtn.addEventListener('click', load);
+
+    downloadBtn.addEventListener('click', ()=>{
+      const blob = new Blob([editor.value], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = pageSelect.value;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // auto-load first
+    load();
+  </script>
+</body>
+</html>

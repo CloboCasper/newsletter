@@ -1,0 +1,10 @@
+{
+  "page_tag": "Upload tool",
+  "page_title": "Upload tool og dataflow",
+  "lead": "Teknisk information om Upload tool, hvordan data uploades, valideres og håndteres i projektet.",
+  "cards": [
+    {"title": "Tekniske krav", "text": "Gennemgang af krav til format, sikkerhed og grænseflader, så uploadprocessen fungerer som forventet."},
+    {"title": "Test og validering", "text": "Beskrivelse af testcases, valideringspunkter og hvad der skal være på plads før driftsstart."},
+    {"title": "Deploy og support", "text": "Plan for deployment, opfølgning og support ved opstart, inklusive ansvar og eskaleringsvej."}
+  ]
+}
