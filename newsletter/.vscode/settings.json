@@ -1,7 +1,0 @@
-{
-    "chat.tools.terminal.autoApprove": {
-        "git remote": true,
-        "Get-ExecutionPolicy": true,
-        "Set-ExecutionPolicy": true
-    }
-}
